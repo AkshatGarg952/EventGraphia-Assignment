@@ -5,9 +5,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-i-e$)v725)hfb" \
              "^cvjas_(no006@-yguf+2-n$l_n&=h_-)y$4f"
 
-DEBUG = True
+import os
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['eventgraphia-assignment-production.up.railway.app', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     "django.contrib.admin",
