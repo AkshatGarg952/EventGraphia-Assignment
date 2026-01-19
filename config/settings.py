@@ -6,9 +6,12 @@ SECRET_KEY = "django-insecure-i-e$)v725)hfb" \
              "^cvjas_(no006@-yguf+2-n$l_n&=h_-)y$4f"
 
 import os
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+import dj_database_url
+
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['eventgraphia-assignment-production.up.railway.app', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://eventgraphia-assignment-production.up.railway.app']
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -31,6 +34,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -65,6 +69,9 @@ DATABASES = {
     }
 }
 
+if os.getenv("DATABASE_URL"):
+    DATABASES["default"] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation."
@@ -93,3 +100,5 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
