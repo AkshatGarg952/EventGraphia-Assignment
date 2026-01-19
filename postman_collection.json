@@ -1,40 +1,43 @@
 {
 	"info": {
 		"_postman_id": "b0c74532-6a84-4d8e-9087-098234666556",
-		"name": "Photographer Assignment API",
-		"description": "API collection for the Photographer Assignment System",
+		"name": "EventGraphia API",
+		"description": "Collection of API endpoints for managing Events and Photographers in the EventGraphia system. Includes assigning photographers to events.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000/api",
+			"type": "string"
+		}
+	],
 	"item": [
 		{
 			"name": "Events",
+			"description": "Endpoints for creating and managing events.",
 			"item": [
 				{
-					"name": "List Events",
+					"name": "Get All Events",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/events/",
-							"protocol": "http",
+							"raw": "{{base_url}}/events/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{base_url}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"events",
 								""
 							]
-						}
+						},
+						"description": "Fetches a list of all scheduled events."
 					},
 					"response": []
 				},
 				{
-					"name": "Create Event",
+					"name": "Add New Event",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -46,50 +49,162 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"event_name\": \"Wedding \",\n    \"event_date\": \"2026-10-25\",\n    \"photographers_required\": 2\n}"
+							"raw": "{\n    \"event_name\": \"Corporate Gala 2026\",\n    \"event_date\": \"2026-11-15\",\n    \"photographers_required\": 5\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/events/",
-							"protocol": "http",
+							"raw": "{{base_url}}/events/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{base_url}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"events",
 								""
 							]
-						}
+						},
+						"description": "Creates a new event with the required number of photographers."
 					},
 					"response": []
 				},
 				{
-					"name": "Assign Photographers",
+					"name": "Get Event Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/events/:id/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID of the event to retrieve"
+								}
+							]
+						},
+						"description": "Gets the details of a specific event by ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Event Details",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_name\": \"Corporate Gala (Rescheduled)\",\n    \"event_date\": \"2026-11-20\",\n    \"photographers_required\": 6\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/events/:id/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Updates the information for an existing event."
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Event",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/events/:id/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Deletes an event from the system."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Photographers to Event",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/events/1/assign-photographers/",
-							"protocol": "http",
+							"raw": "{{base_url}}/events/:id/assign-photographers/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{base_url}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"events",
-								"1",
+								":id",
 								"assign-photographers",
 								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
-						}
+						},
+						"description": "Triggers the magic algorithm to assign available photographers to this event."
+					},
+					"response": []
+				},
+				{
+					"name": "View Assigned Team",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/events/:id/assignments/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								":id",
+								"assignments",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "See which photographers have been assigned to this event."
 					},
 					"response": []
 				}
@@ -97,33 +212,29 @@
 		},
 		{
 			"name": "Photographers",
+			"description": "Manage the photographer profiles.",
 			"item": [
 				{
-					"name": "List Photographers",
+					"name": "All Photographers",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/photographers/",
-							"protocol": "http",
+							"raw": "{{base_url}}/photographers/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{base_url}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"photographers",
 								""
 							]
-						}
+						},
+						"description": "List all photographers registered in the system."
 					},
 					"response": []
 				},
 				{
-					"name": "Create Photographer",
+					"name": "Register Photographer",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -135,24 +246,134 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"phone\": \"1234567890\"\n}"
+							"raw": "{\n    \"name\": \"Sarah Jenkins\",\n    \"email\": \"sarah.j@camera-pro.com\",\n    \"phone\": \"555-0199\"\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/photographers/",
-							"protocol": "http",
+							"raw": "{{base_url}}/photographers/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{base_url}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"photographers",
 								""
 							]
-						}
+						},
+						"description": "Add a new photographer to the database."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Photographer Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/photographers/:id/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"photographers",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Get profile details for a specific photographer."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Sarah Jenkins-Smith\",\n    \"email\": \"sarah.smith@camera-pro.com\",\n    \"phone\": \"555-0199\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/photographers/:id/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"photographers",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Update contact information for a photographer."
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Photographer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/photographers/:id/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"photographers",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Remove a photographer from the system."
+					},
+					"response": []
+				},
+				{
+					"name": "View Schedule",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/photographers/:id/schedule/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"photographers",
+								":id",
+								"schedule",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Check the list of events assigned to this photographer."
 					},
 					"response": []
 				}
