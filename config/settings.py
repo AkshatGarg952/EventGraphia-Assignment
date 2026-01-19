@@ -10,7 +10,7 @@ import dj_database_url
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['eventgraphia-assignment-production.up.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['https://eventgraphia-assignment-production.up.railway.app']
 
 INSTALLED_APPS = [
